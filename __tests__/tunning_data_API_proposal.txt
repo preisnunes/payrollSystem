@@ -1,0 +1,140 @@
+BaseURL: https://{hostname:hostport}/vtvspectrum/api/{version}/tunningdata/initiators/{initiatorid}/opcos/{opcoid}
+
+Node API 
+
+POST: /node
+
+{
+    "nodeId":"nodeId",
+    "regionId":"regionId",
+    "label":label,
+}
+
+//It will insert a node entity into the node table
+
+DELETE: /node/{nodeId}
+
+{}
+
+//It will delete all relations (transport and services) below nodeId
+
+PUT: node/{nodeId}
+
+{
+    "label":label,
+    "regionId":regionId,
+}
+
+//It will update a node entity
+
+GET node/{nodeId}
+
+Body:
+
+
+Response:
+{
+    "results": {
+	"nodeId": "<nodeID>",
+      	"label": "<label>",
+       	"network": {
+            "onId": "<ONID>",
+            "transportStream": {
+                "tsId": "<tsID>",
+                "dvbType": "<broadcast type>",
+                "freq": "<frequency>",
+                "mod": "< modulation>",
+                "symRate": "<symbol rate>",
+                "services": [
+                    {
+                        "serviceType": "0x01",
+                        "scramble": "0",
+                        "eitPresFlwFlag": "0",
+                        "serviceId": "<SID>",
+                        "channelId": "<KID>",
+                        "serviceName": "<SName>",
+                        "lcn": "<LCN>",
+                        "lcn2": "<LCN2>"
+                     }
+                ]
+            }
+        }
+    }
+}
+
+
+2 # TransportSream level API
+
+POST: /transportStream
+
+{
+    "nodeId: "<nodeID>"    
+    "onId":"<onID>",
+    "tsId": "<tsID>",
+    "dvbType": "<broadcast type>",
+    "freq": "<frequency>",
+    "mod": "< modulation>",
+    "symRate": "<symbol rate>",
+}
+
+//It will add a new transport entity
+
+
+PUT: /transportStream/{onId}/{tsid}
+{
+    "dvbType": "<broadcast type>",
+    "freq": "<frequency>",
+    "mod": "< modulation>",
+    "symRate": "<symbol rate>",
+}
+
+//Updates the selected transport entity 
+
+DELETE: /transportSream/{onId}/{tsid}
+
+{}
+
+
+//Deletes all relations below the selected transport entity
+
+3 # Update Service Level
+
+POST /transportStream/{onId}/{tsid}/services
+
+[
+    {
+	"serviceId":"<SID>",
+	"tsid":"tsid",
+      	"serviceType":"0x01",
+      	"scramble":"0",
+        "eitPresFlwFlag":"0",
+        "channelId":"<KID>",
+        "serviceName":"<SName>",
+        "lcn":"<LCN>",
+        "lcn2":"<LCN2>"
+    }
+]
+
+//It will add all the services below the selected transport entity
+
+DELETE /transportStream/{onId}/{tsid}/services
+
+//Delete all the services below the selected transport entity
+
+PUT: /services/{serviceId}
+
+{
+    "serviceType":"0x01",
+    "scramble":"0",
+    "eitPresFlwFlag":"0",
+    "channelId":"<KID>",
+    "serviceName":"<SName>",
+    "lcn":"<LCN>",
+    "lcn2":"<LCN2>"
+}
+
+//Updates a single service entity
+
+DELETE: /services/{serviceId}
+
+//Deletes a single service entity
